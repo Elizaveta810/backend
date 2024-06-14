@@ -1,10 +1,12 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
-const cors = require("cors");
+// const cors = require("cors");
 const mongoose = require("mongoose");
 const userRouter = require("./routes/users");
 const bookRouter = require("./routes/books");
+const userSchema = require("./models/user");
+const bookSchema = require("./models/book");
 
 dotenv.config();
 
@@ -18,17 +20,24 @@ mongoose.connect(MONGO_URL);
 
 const app = express();
 
-const helloWorld = (request, response) => {
-  response.status(200);
-  response.send("Hello, World!");
-};
-
-app.use(cors());
+// app.use(cors());
 
 app.use(bodyParser.json());
 
-app.get("/", helloWorld);
+const helloWorld = (request, response) => {
+  response.status(200);
+  response.send("Hello, World!!!!!!");
 
+  if (!userRouter || !bookRouter) {
+    response.statusCode = 404;
+    response.statusMessage = "Bad Request";
+    response.setHeader("Content-Type", "application/json");
+    response.write("Читателя или книги по такому адресу не существует");
+    response.end();
+    return;
+  }
+};
+app.get("/", helloWorld);
 app.post("/", (request, response) => {
   response.status(200);
   response.send("Hello from POST!");
