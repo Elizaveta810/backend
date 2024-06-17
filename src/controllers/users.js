@@ -4,16 +4,16 @@ const userSchema = require("../models/user");
 // Получим всех пользователей из БД
 const getUsers = (request, response) => {
   // if (request.schema === userSchema) {
-    return User.find({})
-      .then((data) => {
-        if (!data) { 
-          response.status(404).send("Читатели не найдены"); 
-        }
-        response.status(200).send(data);
-      })
-      .catch((e) => {
-        response.status(500).send(e.message);
-      });
+  return User.find({})
+    .then((data) => {
+      if (!data) {
+        return response.status(404).send("Читатели не найдены");
+      }
+      response.status(200).send(data);
+    })
+    .catch((e) => {
+      response.status(500).send(e.message);
+    });
   // } else {
   //   response.status(404).send("Читатели не найдены");
   // }
@@ -57,7 +57,7 @@ const updateUser = (request, response) => {
   })
     .then((user) => {
       if (!user) {
-        response.status(404).send("Читатель не найден");
+        return response.status(404).send("Читатель не найден");
       }
       response.status(200).send(user);
     })
@@ -70,10 +70,10 @@ const updateUser = (request, response) => {
 const deleteUser = (request, response) => {
   const { user_id } = request.params;
   // if (request.schema === userSchema) {
-    return User.findByIdAndDelete(user_id)
+  return User.findByIdAndDelete(user_id)
     .then((user) => {
       if (!user) {
-        response.status(404).send("Читетель не найден");
+        return response.status(404).send("Читетель не найден");
       } else {
         response.status(200).send("Удалено");
       }

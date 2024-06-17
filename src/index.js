@@ -5,8 +5,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const userRouter = require("./routes/users");
 const bookRouter = require("./routes/books");
-const userSchema = require("./models/user");
-const bookSchema = require("./models/book");
+// const userSchema = require("./models/user");
+// const bookSchema = require("./models/book");
 
 dotenv.config();
 
